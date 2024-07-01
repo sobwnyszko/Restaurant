@@ -1,0 +1,13 @@
+CREATE DEFINER=`root`@`localhost` PROCEDURE `Modyfikacja_stolikow`(
+	IN numer int,
+    IN ileMejsc int,
+    OUT stat bool
+)
+BEGIN
+	if exists(select 1 from stolik where `Numer stolika` = numer) then
+      UPDATE stolik SET `Ilość miejsc` = ileMejsc WHERE (`Numer stolika` = numer);
+      set stat = true;
+	else
+      set stat = false;
+	end if;
+END

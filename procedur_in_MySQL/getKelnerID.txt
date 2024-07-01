@@ -1,0 +1,7 @@
+CREATE DEFINER=`root`@`localhost` PROCEDURE `getKelnerID`(
+	IN inPracownikID int,
+	OUT outKelnerID int
+)
+BEGIN
+	set outKelnerID = (select ID from kelner where PracownikID = inPracownikID);
+END

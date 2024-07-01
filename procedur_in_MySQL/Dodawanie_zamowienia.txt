@@ -1,0 +1,9 @@
+CREATE DEFINER=`root`@`localhost` PROCEDURE `Dodawanie_zamowienia`(
+	IN inIDPotrawy int,
+    IN NrZam int,
+    OUT stat bool
+)
+BEGIN
+	  INSERT INTO potrawa_zamówienie (PotrawaID, `Numer zamówienia`, Status) VALUES (inIDPotrawy, NrZam, 'Przyjęty');
+      set stat = true;
+END

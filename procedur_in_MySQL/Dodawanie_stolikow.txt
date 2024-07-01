@@ -1,0 +1,13 @@
+CREATE DEFINER=`root`@`localhost` PROCEDURE `Dodawanie_stolikow`(
+	IN numer int,
+    IN ileMejsc int,
+    OUT stat bool
+)
+BEGIN
+	if exists(select 1 from stolik where `Numer stolika` = numer) then
+      set stat = false;
+	else
+	  INSERT INTO stolik (`Numer stolika`, `Ilość miejsc`) VALUES (numer, ileMejsc);
+      set stat = true;
+	end if;
+END

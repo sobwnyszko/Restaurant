@@ -1,0 +1,16 @@
+CREATE DEFINER=`root`@`localhost` PROCEDURE `Dezaktywacja_pracownikow`(
+    IN inRola ENUM('Kelner','Kucharz','Sekretarka','Menedżer'),
+    IN inPESEL CHAR(11),
+    IN inDataZwoln DATE,
+    OUT stat bool
+)
+BEGIN
+	DECLARE tempID INT;
+    select ID into tempID from pracownik where (Rola = inRola and PESEL = inPESEL);
+	if exists(select 1 from pracownik where Rola = (inRola and PESEL = inPESEL)) then
+		set stat = true;
+        UPDATE pracownik SET `Data zwolnienia` = inDataZwoln WHERE (`ID` = tempID);
+	else
+		set stat = false;
+    end if;
+END

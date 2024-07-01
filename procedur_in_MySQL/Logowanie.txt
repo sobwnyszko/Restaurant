@@ -1,0 +1,15 @@
+CREATE DEFINER=`root`@`localhost` PROCEDURE `Logowanie`(
+	IN inlogin varchar(127), 
+    IN inpassword varchar(127), 
+    OUT poprawnosc bool,
+    OUT outid int)
+BEGIN
+	DECLARE tempID INT;
+    if exists(select 1 from pracownik where (Login = inlogin and Hasło = inpassword and `Data zwolnienia` IS NULL)) then
+      select ID into tempID from pracownik where (Login = inlogin);
+      set outid = tempID;
+      set poprawnosc = true;
+	else
+      set poprawnosc = false;
+	end if;
+END

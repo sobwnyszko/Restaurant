@@ -1,0 +1,23 @@
+CREATE DEFINER=`root`@`localhost` PROCEDURE `Dodawanie_rezerwacji`(
+	IN inData date,
+    IN inGodzina time(6),
+    IN inNrStolika int,
+    IN inImie varchar(127),
+    IN inNazwisko varchar(127),
+    IN inNrKontakt char(11),
+    OUT stat bool
+)
+BEGIN
+	DECLARE tempID INT;
+    set stat = false;
+	SELECT ID into tempID FROM Imię WHERE Imię=inImie;
+    
+    IF tempID IS NULL THEN
+        INSERT INTO Imię (Imię) VALUES (inImie);
+        SET tempID = LAST_INSERT_ID();
+    END IF;
+    
+    INSERT INTO rezerwacja (Data, Godzina, `StolikNumer stolika`, ImięID, Nazwisko, `nr kontaktowy`) 
+    VALUES (inData, inGodzina, inNrStolika, tempID, inNazwisko, inNrKontakt);
+    set stat = true;
+END

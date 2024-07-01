@@ -1,0 +1,16 @@
+CREATE DEFINER=`root`@`localhost` PROCEDURE `Dodawanie_potraw`(
+    IN inDanieID int,
+    IN inNazwa varchar(127),
+    IN inKalorii int,
+    IN inWaga double,
+    IN inCena double,
+    OUT stat bool
+)
+BEGIN
+	if exists(select 1 from potrawa where Nazwa = inNazwa) then
+      set stat = false;
+	else
+	  INSERT INTO potrawa (DanieID, Nazwa, `Ilość kalorii`, Waga, Cena) VALUES (inDanieID, inNazwa, inKalorii, inWaga, inCena);
+      set stat = true;
+	end if;
+ENDs

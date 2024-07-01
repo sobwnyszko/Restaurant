@@ -1,0 +1,17 @@
+CREATE DEFINER=`root`@`localhost` PROCEDURE `Modyfikacja_potraw`(
+	IN inPotrawaID int,
+    IN inKalorii int,
+    IN inWaga double,
+    IN inCena double,
+    OUT stat bool
+)
+BEGIN
+	if exists(select 1 from potrawa where ID = inPotrawaID) then
+      UPDATE potrawa SET `Ilość kalorii` = inKalorii WHERE (ID = inPotrawaID);
+      UPDATE potrawa SET Waga = inWaga WHERE (ID = inPotrawaID);
+      UPDATE potrawa SET Cena = inCena WHERE (ID = inPotrawaID);
+      set stat = true;
+	else
+      set stat = false;
+	end if;
+END

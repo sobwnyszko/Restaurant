@@ -1,0 +1,55 @@
+CREATE DEFINER=`root`@`localhost` PROCEDURE `Aktualizuj_status_stolika`(
+	IN inNumerStolika int,
+    IN inStatus enum('Wolny','Zajęty','Zarezerwowany'),
+    IN inKelnierID int,
+    OUT stat bool,
+    OUT nrZam int
+    
+)
+BEGIN
+	DECLARE getKlientID INT;
+	if inStatus = 'Wolny' then
+		if exists(select 1 from klient where `Numer stolika` = inNumerStolika) then
+			if exists(select 1 from stolik where `Numer stolika` = inNumerStolika) then
+				UPDATE stolik SET `Status stolika` = inStatus WHERE (`Numer stolika` = inNumerStolika);
+			end if;
+            set nrZam = (select `Numer zamówienia` from zamówienie where (KelnerID = inKelnierID and KlientID = (select ID from klient where `Numer stolika` = inNumerStolika)));
+            DELETE FROM zamówienie WHERE (`Numer zamówienia` = nrZam);
+            set getKlientID = (select ID from klient where `Numer stolika` = inNumerStolika);
+            DELETE FROM klient WHERE ID = getKlientID;
+            set stat = true;
+		else 
+			set stat = false;
+		end if;
+    end if;
+    
+    if inStatus = 'Zajęty' then
+		if exists(select 1 from klient where `Numer stolika` = inNumerStolika) then
+			set stat = false;
+        else
+			if exists(select 1 from stolik where `Numer stolika` = inNumerStolika) then
+				UPDATE stolik SET `Status stolika` = inStatus WHERE (`Numer stolika` = inNumerStolika);
+			end if;
+			INSERT INTO klient (`Numer stolika`) VALUES (inNumerStolika);
+            set getKlientID = (select ID from klient where (`Numer stolika` = inNumerStolika));
+			INSERT INTO zamówienie (KelnerID, KlientID) VALUES (inKelnierID, getKlientID);
+			set nrZam = (select `Numer zamówienia` from zamówienie where (KelnerID = inKelnierID and KlientID = getKlientID));
+            set stat = true;
+        end if;
+    end if;
+    
+    if inStatus = 'Zarezerwowany' then
+		if exists(select 1 from klient where `Numer stolika` = inNumerStolika) then
+			set stat = false;
+        else
+			if exists(select 1 from stolik where `Numer stolika` = inNumerStolika) then
+				UPDATE stolik SET `Status stolika` = inStatus WHERE (`Numer stolika` = inNumerStolika);
+			end if;
+			INSERT INTO klient (`Numer stolika`) VALUES (inNumerStolika);
+            set getKlientID = (select ID from klient where `Numer stolika` = inNumerStolika);
+			INSERT INTO zamówienie (KelnerID, KlientID) VALUES (inKelnierID, getKlientID);
+			set nrZam = (select `Numer zamówienia` from zamówienie where (KelnerID = inKelnierID and KlientID = getKlientID));
+            set stat = true;
+        end if;
+    end if;
+END

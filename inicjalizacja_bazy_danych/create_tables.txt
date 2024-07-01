@@ -1,0 +1,11 @@
+CREATE TABLE Danie (ID int(10) NOT NULL AUTO_INCREMENT, Nazwa varchar(127) NOT NULL, PRIMARY KEY (ID));
+CREATE TABLE Imię (ID int(10) NOT NULL AUTO_INCREMENT, Imię varchar(127) NOT NULL, PRIMARY KEY (ID));
+CREATE TABLE Kelner (ID int(10) NOT NULL AUTO_INCREMENT, PracownikID int(10) NOT NULL, PRIMARY KEY (ID));
+CREATE TABLE Klient (ID int(10) NOT NULL AUTO_INCREMENT, `StolikNumer stolika` int(10) NOT NULL, PRIMARY KEY (ID));
+CREATE TABLE Potrawa (ID int(10) NOT NULL AUTO_INCREMENT, DanieID int(10) NOT NULL, Nazwa varchar(127) NOT NULL, `Ilość kalorii` int(10) NOT NULL, Waga double NOT NULL, Cena double NOT NULL, PRIMARY KEY (ID));
+CREATE TABLE Potrawa_Zamówienie (ID int(10) NOT NULL AUTO_INCREMENT, PotrawaID int(10) NOT NULL, `ZamówienieNumer zamówienia` int(10) NOT NULL, Status ENUM('W przygotowaniu', 'Gotowy', 'Dostarczony') NOT NULL, PRIMARY KEY (ID));
+CREATE TABLE Pracownik (ID int(10) NOT NULL AUTO_INCREMENT, Rola ENUM('Kelner', 'Kucharz', 'Sekretarka', 'Menedżer') NOT NULL, ImięID int(10) NOT NULL, Nazwisko varchar(127) NOT NULL, PESEL char(11) NOT NULL, `nr kontaktowy` char(11) NOT NULL, `e-mail` varchar(345) NOT NULL, Login varchar(127) NOT NULL, Hasło varchar(127) NOT NULL, `Kod pocztowy` char(5) NOT NULL, Miasto varchar(63) NOT NULL, Ulica varchar(63), `Numer domu` int(10) NOT NULL, `Numer mieszkania` int(10), `Data zatrudnienia` date NOT NULL, `Data zwolnienia` date, PRIMARY KEY (ID));
+CREATE TABLE Rezerwacja (ID int(10) NOT NULL AUTO_INCREMENT, Data date NOT NULL, Godzina time(7) NOT NULL, `StolikNumer stolika` int(10) NOT NULL, ImięID int(10) NOT NULL, Nazwisko varchar(127) NOT NULL, `nr kontaktowy` char(11) NOT NULL, PRIMARY KEY (ID));
+CREATE TABLE Stolik (`Numer stolika` int(10) NOT NULL AUTO_INCREMENT, `Ilość miejsc` int(10) NOT NULL, `Status stolika` ENUM('Wolny', 'Zajęty', 'Zarezerwowany') NOT NULL, PRIMARY KEY (`Numer stolika`));
+CREATE TABLE Zamówienie (`Numer zamówienia` int(10) NOT NULL AUTO_INCREMENT, KelnerID int(10) NOT NULL, KlientID int(10) NOT NULL, PRIMARY KEY (`Numer zamówienia`));
+ALTER TABLE Rezerwacja ADD CONSTRAINT FKRezerwacja431930 FOREIGN KEY (ImięID) REFERENCES Imię (ID);

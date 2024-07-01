@@ -1,0 +1,13 @@
+CREATE DEFINER=`root`@`localhost` PROCEDURE `Aktualizacja_statusa`(
+	IN IDzamowienia int,
+    IN statusZam enum('Przyjęty','W przygotowaniu','Gotowy'),
+    OUT stat bool
+)
+BEGIN
+	if exists(select 1 from potrawa_zamówienie where ID = IDzamowienia) then
+      UPDATE potrawa_zamówienie SET Status = statusZam WHERE (ID = IDzamowienia);
+      set stat = true;
+	else
+      set stat = false;
+	end if;
+END

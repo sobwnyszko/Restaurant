@@ -1,0 +1,63 @@
+CREATE DEFINER=`root`@`localhost` PROCEDURE `Modyfikacja_rezerwacji`(
+	IN inIDRezerwacji int,
+    IN CoZmienic varchar(127),
+	IN inData date,
+    IN inGodzina time(6),
+    IN inNrStolika int,
+    IN inImie varchar(127),
+    IN inNazwisko varchar(127),
+    IN inNrKontakt char(11),
+    OUT stat bool
+)
+BEGIN
+	DECLARE tempID INT;
+
+	
+    
+	if exists(select 1 from rezerwacja where ID = inIDRezerwacji) then
+		SELECT ID into tempID FROM Imię WHERE Imię=inImie;
+		set stat = true;
+		IF tempID IS NULL THEN
+			INSERT INTO Imię (Imię) VALUES (inImie);
+			SET tempID = LAST_INSERT_ID();
+		END IF;
+        
+		if CoZmienic = 'Data' then
+			UPDATE rezerwacja SET Data = inData WHERE (ID = inIDRezerwacji);
+		end if;
+    
+		if CoZmienic = 'Godzina' then
+			UPDATE rezerwacja SET Godzina = inGodzina WHERE (ID = inIDRezerwacji);
+		end if;
+    
+		if CoZmienic = 'NrStolika' then
+			UPDATE rezerwacja SET `StolikNumer stolika` = inNrStolika WHERE (ID = inIDRezerwacji);
+		end if;
+    
+		if CoZmienic = 'Imie' then
+			UPDATE rezerwacja SET ImięID = tempID WHERE (ID = inIDRezerwacji);
+		end if;
+    
+		if CoZmienic = 'Nazwisko' then
+			UPDATE rezerwacja SET Nazwisko = inNazwisko WHERE (ID = inIDRezerwacji);
+		end if;
+    
+		if CoZmienic = 'NrKontaktowy' then
+			UPDATE rezerwacja SET `nr kontaktowy` = inNrKontakt WHERE (ID = inIDRezerwacji);
+		end if;
+    
+		if CoZmienic = 'Wszystko' then
+			UPDATE rezerwacja SET Data = inData WHERE (ID = inIDRezerwacji);
+            UPDATE rezerwacja SET Godzina = inGodzina WHERE (ID = inIDRezerwacji);
+            UPDATE rezerwacja SET `StolikNumer stolika` = inNrStolika WHERE (ID = inIDRezerwacji);
+            UPDATE rezerwacja SET ImięID = tempID WHERE (ID = inIDRezerwacji);
+            UPDATE rezerwacja SET Nazwisko = inNazwisko WHERE (ID = inIDRezerwacji);
+            UPDATE rezerwacja SET `nr kontaktowy` = inNrKontakt WHERE (ID = inIDRezerwacji);
+		end if;
+        if CoZmienic = 'nic' then
+			set stat = false;
+        end if;
+	else
+		set stat = false;
+	end if;
+END

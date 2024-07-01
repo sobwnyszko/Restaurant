@@ -1,0 +1,12 @@
+CREATE DEFINER=`root`@`localhost` PROCEDURE `Usuwanie_rezerwacji`(
+	IN inIDRezerwacji int,
+    OUT stat bool
+)
+BEGIN
+	if exists(select 1 from rezerwacja where ID = inIDRezerwacji) then
+		DELETE FROM rezerwacja WHERE (ID = inIDRezerwacji);
+		set stat = true;
+	else
+		set stat = false;
+    end if;
+END

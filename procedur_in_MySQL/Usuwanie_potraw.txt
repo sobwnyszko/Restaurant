@@ -1,0 +1,12 @@
+CREATE DEFINER=`root`@`localhost` PROCEDURE `Usuwanie_potraw`(
+	IN inPotrawaID int,
+    OUT stat bool
+)
+BEGIN
+	if exists(select 1 from potrawa where ID = inPotrawaID) then
+      DELETE FROM potrawa WHERE (ID = inPotrawaID);
+      set stat = true;
+	else
+      set stat = false;
+	end if;
+END

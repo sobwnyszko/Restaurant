@@ -1,0 +1,12 @@
+CREATE DEFINER=`root`@`localhost` PROCEDURE `Usuwanie_zamowienia`(
+	IN IDzamowienia int,
+    OUT stat bool
+)
+BEGIN
+	if exists(select 1 from potrawa_zamówienie where ID = IDzamowienia) then
+      DELETE FROM potrawa_zamówienie WHERE (ID = IDzamowienia);
+      set stat = true;
+	else
+      set stat = false;
+	end if;
+END

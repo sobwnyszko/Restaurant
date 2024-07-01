@@ -1,0 +1,42 @@
+CREATE DEFINER=`root`@`localhost` PROCEDURE `Dodawanie_pracownikow`(
+    IN inRola ENUM('Kelner','Kucharz','Sekretarka','Menedżer'),
+    IN inImie VARCHAR(127),
+    IN inNazwisko VARCHAR(127),
+    IN inPESEL CHAR(11),
+    IN inNrKontaktowy CHAR(11),
+    IN inEmail VARCHAR(345),
+    IN inLogin VARCHAR(127),
+    IN inHaslo VARCHAR(127),
+    IN inKodPocztowy CHAR(6),
+    IN inMiasto VARCHAR(63),
+    IN inUlica VARCHAR(63),
+    IN inNumerDomu INT,
+    IN inNumerMieszkania INT,
+    IN inDataZatrudnienia DATE,
+    out stat bool
+)
+BEGIN
+    DECLARE tempID INT;
+    set stat = false;
+	SELECT ID into tempID FROM Imię WHERE Imię=inImie;
+    
+    IF tempID IS NULL THEN
+        INSERT INTO Imię (Imię) VALUES (inImie);
+        SET tempID = LAST_INSERT_ID();
+    END IF;
+    
+    if exists(select 1 from pracownik where Login = inLogin) then
+      set stat = false;
+	else
+		INSERT INTO pracownik (
+			Rola, ImięID, Nazwisko, PESEL, `nr kontaktowy`, `e-mail`, Login, Hasło, `Kod pocztowy`, Miasto, Ulica, `Numer domu`, `Numer mieszkania`, `Data zatrudnienia`
+		) VALUES (
+			inRola, tempID, inNazwisko, inPESEL, inNrKontaktowy, inEmail, inLogin, inHaslo, inKodPocztowy, inMiasto, inUlica, inNumerDomu, inNumerMieszkania, inDataZatrudnienia
+		);
+        if inRola = 'Kelner' then
+			INSERT INTO kelner (PracownikID) VALUES ((select ID from pracownik where Login = inLogin));
+        end if;
+      set stat = true;
+	end if;
+
+END

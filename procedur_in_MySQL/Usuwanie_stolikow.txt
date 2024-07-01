@@ -1,0 +1,12 @@
+CREATE DEFINER=`root`@`localhost` PROCEDURE `Usuwanie_stolikow`(
+	IN numer int,
+    OUT stat bool
+)
+BEGIN
+	if exists(select 1 from stolik where `Numer stolika` = numer) then
+      DELETE FROM stolik WHERE (`Numer stolika` = numer);
+      set stat = true;
+	else
+      set stat = false;
+	end if;
+END
