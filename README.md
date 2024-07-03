@@ -41,6 +41,12 @@ This project is designed to streamline order processing and table reservations i
 ## Usage Diagrams
 
 ![Aktorzy](images/aktorze.png)
+*Actors in the restaurant ordering system*
+
+## Database Models
 ![Model Konceptualny](images/model_konceptualny.png)
+*Conceptual ERD diagram for restaurants*
+
 ![Model Fizyczny](images/model_fizyczny.png)
+*Physical model*
 
