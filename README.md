@@ -40,8 +40,7 @@ This project is designed to streamline order processing and table reservations i
 
 ## Usage Diagrams
 
-![Admin Module](images/aktorze.png)
-![Kitchen Module](images/kitchen_module.png)
-![Restaurant Module](images/restaurant_module.png)
-![Reception Module](images/reception_module.png)
+![Aktorzy](images/aktorze.png)
+![Model Konceptualny](images/model_konceptualny.png)
+![Model Fizyczny](images/modul_fizyczny.png)
 
