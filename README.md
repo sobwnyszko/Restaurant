@@ -45,11 +45,3 @@ This project is designed to streamline order processing and table reservations i
 ![Restaurant Module](images/restaurant_module.png)
 ![Reception Module](images/reception_module.png)
 
-## Contributors
-
-- Dzmitry Mandrukevich
-- Oliwier Woźniak
-
-## License
-
-This project is licensed under the MIT License.
