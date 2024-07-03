@@ -42,5 +42,5 @@ This project is designed to streamline order processing and table reservations i
 
 ![Aktorzy](images/aktorze.png)
 ![Model Konceptualny](images/model_konceptualny.png)
-![Model Fizyczny](images/modul_fizyczny.png)
+![Model Fizyczny](images/model_fizyczny.png)
 
